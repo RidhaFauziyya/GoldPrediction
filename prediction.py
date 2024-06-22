@@ -1,9 +1,4 @@
-"""
-Created on 2020-11-25
-@author: Dr. Ganjar Alfian
-email : ganjar@dongguk.edu
-for teaching purpose only.
-"""
+
 
 import pandas as pd
 import joblib
