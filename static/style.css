@@ -58,6 +58,10 @@ h1{
     .navbar{
         padding: 2rem 0.5rem !important;
     }
+
+    .tgl{
+        width: 100%;
+    }
 }
 
 
