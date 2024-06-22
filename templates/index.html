@@ -13,24 +13,26 @@
     </head>
 
    <body class="bg-gold">
+      
       <nav class="navbar navbar-light bg-black">
-         <div class="container">
-         <a class="navbar-brand" href="/">
-            <img src="{{url_for('static', filename='logo.png')}}" alt="" width="100" height="50">
-         </a>
+         <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+              <img src="{{url_for('static', filename='logo.png')}}" alt="" width="100" height="50" class="d-inline-block align-text-top">
+              <p class="ps-5 mb-0 fw-bolder">GOLD PRICE PREDICTION</p>
+            </a>
          </div>
       </nav>
       <div class="content">
-         <h1 class="text-center">GOLD PREDICTION</h1>
+         <h1 class="text-center">International Gold Price Prediction per Troy Ounce</h1>
          <form method = "post" action = "/result/">
-            <div class="row">
+            <div class="row justify-content-center">
                <div class="col-sm-3">
                   <div class='input-group date' id='picker'>
                      <input id="datepicker" placeholder="Date"/>
                   </div>
                </div>
                <div class="col-sm-3">
-                  <select class="form-select" aria-label="Default select example">
+                  <select class="form-select mb-3" aria-label="Default select example">
                      <option selected>Currency</option>
                      <option value="idr">IDR</option>
                      <option value="usd">USD</option>
@@ -42,8 +44,17 @@
             </div>
          </form>
 
-         <div class="content-chart">
-            <h2>Gold Prices</h2>
+         <div class="mt-5">
+            <h2 class="fw-bold">Gold Price</h2>
+            <table class="table align-middle text-center table-borderless w-25 mt-3">
+               <tr class="text-white">
+                  <th class="bg-black">From</th>
+                  <th class="bg-black">1-2-2024</th>
+                  <th></th>
+                  <th class="bg-black">To</th>
+                  <th class="bg-black">7-2-2024</th>
+               </tr>
+            </table>
          </div>
       </div>
 

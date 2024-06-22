@@ -14,28 +14,49 @@
 
    <body class="bg-gold">
       <nav class="navbar navbar-light bg-black">
-         <div class="container">
-         <a class="navbar-brand" href="/">
-            <img src="{{url_for('static', filename='logo.png')}}" alt="" width="100" height="50">
-         </a>
+         <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+              <img src="{{url_for('static', filename='logo.png')}}" alt="" width="100" height="50" class="d-inline-block align-text-top">
+              <p class="ps-5 mb-0 fw-bolder">GOLD PRICE PREDICTION</p>
+            </a>
          </div>
       </nav>
       <div class="content">
-         <h1 class="text-center">GOLD PREDICTION</h1>
-         <table class="table table-dark table-striped">
+         <h1 class="text-center">International Gold Price Prediction per Troy Ounce</h1>
+         <table class="table table-responsive table-dark table-striped align-middle text-center">
             <thead>
-               <th>Date</th>
                <th>Currency</th>
+               <th>Current Gold Prices</th>
+               <th>Prediction Date </th>
                <th>Price Per Troy Ounce</th>
+               <th>Monthly Average</th>
+               <th>Movement Prediction</th>
             </thead>
             <tbody>
                <tr>
-                  <th>Tanggal</th>
                   <th>Rupiah</th>
                   <th>Rp</th>
+                  <th>Tanggal</th>
+                  <th>Rp</th>
+                  <th>Rata-rata</th>
+                  <th><span class="badge bg-gold">Up</span></th>
                </tr>
             </tbody>
          </table>
+
+         <div class="mt-5">
+            <h2 class="fw-bold">Gold Price Prediction Chart From the Previous Week </h2>
+            <table class="table align-middle text-center table-borderless w-25 mt-3">
+               <tr class="text-white">
+                  <th class="bg-black">From</th>
+                  <th class="bg-black">1-2-2024</th>
+                  <th></th>
+                  <th class="bg-black">To</th>
+                  <th class="bg-black">7-2-2024</th>
+               </tr>
+            </table>
+         </div>
+
       </div>
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
