@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Prediction</title>
+
+    {% include 'Static/css.html' %}
+
+    {% include 'Static/js-start.html' %}
+</head>
+<body class="background-pattern-1">
+    {% include 'Layouts/navbar.html' %}
+
+    <div class="content">
+        <!-- header -->
+        <h1 class="header-text text-center">International Gold Price Prediction per Troy Ounce</h1>
+
+        <!-- Perform Price Prediction -->
+        <form method="POST">
+            <div class="row justify-content-center g-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
+                        <div class="form-floating">
+                            <select class="form-select shadow-none" id="floatingSelectGrid">
+                                <option selected value="1">A Day After</option>
+                                <option value="2">A Week After</option>
+                                <option value="3">A Month After</option>
+                                <option value="4">A Year After</option>
+                            </select>
+                            <label for="floatingSelectGrid">Prediction Ranges</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
+                        <div class="form-floating">
+                            <select class="form-select shadow-none" id="floatingSelectGrid">
+                                <option selected value="1">Indonesian Rupiah (IDR)</option>
+                                <option value="2">American Dollar (USD)</option>
+                            </select>
+                            <label for="floatingSelectGrid">Currency</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-motherboard"></i></span>
+                        <div class="form-floating">
+                            <select class="form-select shadow-none" id="floatingSelectGrid">
+                                <option selected value="1">MLP</option>
+                            </select>
+                            <label for="floatingSelectGrid">Model</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-auto col-md-auto col-lg-auto">
+                    <button id="submit-prediction" type="button" class="btn btn-danger shadow-none py-3 px-4"><i class="bi bi-send-plus me-2"></i> Predict</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- prediction histories -->
+        <div id="prediction-histories" class="mt-4"></div>
+
+        <!-- historical gold prices -->
+        <div class="mt-5">
+           <h2 class="header-text"><i class="bi bi-ui-radios me-2"></i> Historical Gold Prices</h2>
+           <div class="row g-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
+                        <div class="form-floating">
+                            <input type="date" class="form-control shadow-none" id="start-date-historical" value="2022-06-27" readonly>
+                            <label for="start-date-historical">Start Date</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
+                        <div class="form-floating">
+                            <input type="date" class="form-control shadow-none" id="end-date-historical" value="2024-06-24" readonly>
+                            <label for="end-date-historical">End Date</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <canvas id="historical-gold-data-chart" width="900" height="400"></canvas>
+
+        <!-- potential surge in price -->
+        <div class="mt-5">
+            <h2 class="header-text"><i class="bi bi-file-earmark-bar-graph me-2"></i> Potential Surge in Price</h2>
+            <div class="row g-3">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                     <div class="input-group mb-3">
+                         <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
+                         <div class="form-floating">
+                             <input type="date" class="form-control shadow-none" id="start-date-historical">
+                             <label for="start-date-historical">Start Date</label>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                     <div class="input-group mb-3">
+                         <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
+                         <div class="form-floating">
+                             <input type="date" class="form-control shadow-none" id="end-date-historical">
+                             <label for="end-date-historical">End Date</label>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+    </div>
+
+    {% include 'Static/js-end.html' %}
+</body>
+</html>
