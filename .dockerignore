@@ -1,0 +1,7 @@
+__pycache__
+.Functions.__pycache__
+*.pyc
+*.pyo
+.git
+.vscode
+.venv

@@ -2,7 +2,7 @@ from configparser import ConfigParser
 from datetime import datetime, timedelta
 import os, psycopg2, yfinance as yf, pandas as pd, json, requests, math, joblib
 
-base_dir = '\\'.join(os.path.dirname(os.path.abspath(__file__)).split('\\')[:3])
+base_dir = os.getcwd()
 
 def get_curr_work_dir():
     directories = dict()
