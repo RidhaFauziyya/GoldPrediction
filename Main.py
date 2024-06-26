@@ -59,6 +59,29 @@ def get_ranges_gold_data():
             }
         )
 
+@app.route("/api/chart/get_ranges_gold_surge_data", methods=['POST'])
+def get_ranges_gold_surge_data():
+    data = request.get_json()
+
+    try:
+        data_window, model_name, nums_data = helper.check_data_window_conf(data['window'].lower().split(' ')[1], algorithm='mlp', check_nums_data=True)
+        prev_gold_prices = helper.get_historical_gold_prices(data_window)
+        return jsonify(
+            {
+                'response': helper.get_potential_price_surge(nums_data, data['currency'], prev_gold_prices, model_name),
+                'status': '200 OK',
+                'messages': 'success'
+            }
+        )
+    except Exception as e:
+        return jsonify(
+            {
+                'response': str(e),
+                'status': '500 ERROR',
+                'messages': 'An Error has occured!'
+            }
+        )
+
 @app.route("/api/get_prediction", methods=['GET'])
 def get_prediction():
     data = request.get_json()

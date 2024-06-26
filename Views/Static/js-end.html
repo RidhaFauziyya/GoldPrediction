@@ -3,8 +3,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 <script>
-    var pred_table, gold_price_chart;
-    var base_url_api = 'http://127.0.0.1:5000/api';
+    let gold_price_surge_chart_instance = null;
+    let pred_table, gold_price_chart, gold_price_surge_chart;
+    let base_url_api = 'http://127.0.0.1:5000/api';
 
     $(document).ready( function () {
         // create chart and table
@@ -18,8 +19,21 @@
                 "pred_prefered_currency": $('#historical-preferred-currency').val(),
                 "model": $('#historical-preferred-model').val()
             }
-            console.log(data)
+
             update_table(pred_table, JSON.stringify(data))
+        });
+
+        $('#surge-submit-prediction').click(function(){
+            let data = {
+                "window": $('#surge-prediction-ranges').val(),
+                "currency": $('#surge-preferred-currency').val()
+            }
+
+            // if (isCanvasBlank(document.getElementById('surge-gold-data-chart')) == false) {
+            //     gold_price_surge_chart.destroy()
+            // }
+
+            create_surge_chart($('#surge-preferred-currency').val(), JSON.stringify(data))
         });
     });
 
@@ -157,23 +171,38 @@
         });
     }
 
-    function create_surge_chart() {
-                $.ajax({
-            type: "GET",
-            url: `${base_url_api}/chart/get_gold_data`,
+    function create_surge_chart(currency, raw_json) {
+        // show loading swal
+        Swal.fire({allowOutsideClick : false,title: "Making Prediction", didOpen: () => {swal.showLoading();}});
+
+        $.ajax({
+            data: raw_json,
+            type: "POST",
+            processData: false,
+            url: `${base_url_api}/chart/get_ranges_gold_surge_data`,
+            contentType: 'application/json',
             success: function(data) {
                 // get date and close price data
-                let date_data = data['response']['date_data'];
-                let close_data = data['response']['close_data'];
+                let date_data = data['response']['histories']['date_data'];
+                let close_data = data['response']['histories']['close_data'];
+                let pred_result = data['response']['prediction'];
 
+                // get the chart element
+                gold_price_surge_chart = document.getElementById('surge-gold-data-chart').getContext('2d');
+
+                // destroy the existing chart instance if it exists
+                if (gold_price_surge_chart_instance) {
+                    gold_price_surge_chart_instance.destroy();
+                    gold_price_surge_chart_instance = null;
+                }
+                
                 // draw chart from data
-                gold_price_chart = document.getElementById('historical-gold-data-chart');
-                new Chart(gold_price_chart, {
+                gold_price_surge_chart_instance = new Chart(gold_price_surge_chart, {
                     type: 'line',
                     data: {
                     labels: date_data,
                     datasets: [{
-                            label: 'Gold Price in USD',
+                            label: `Gold Price in ${currency.toUpperCase()}`,
                             data: close_data,
                             borderColor: 'rgba(66, 54, 23)',
                             backgroundColor: 'rgba(222, 192, 115)',
@@ -200,7 +229,33 @@
                         }
                     }
                 });
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Successfully Predict Gold Price!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then((result) => {
+                    swal.close()
+                });
+            },
+            error: function(data) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Cannot Make Chart, Something is Wrong!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then((result) => {
+                    swal.close()
+                });
             }
         });
     }
+
+    function isCanvasBlank(canvas) {
+        return !canvas.getContext('2d')
+            .getImageData(0, 0, canvas.width, canvas.height).data
+            .some(channel => channel !== 0);
+    }
+
 </script>

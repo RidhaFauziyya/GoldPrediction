@@ -96,22 +96,39 @@
         <div class="mt-5">
             <h2 class="header-text"><i class="bi bi-file-earmark-bar-graph me-2"></i> Potential Surge in Price</h2>
             <div class="row g-3">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
                         <div class="form-floating">
-                            <select class="form-select shadow-none" id="floatingSelectGrid">
-                                <option selected value="1">A Day After</option>
-                                <option value="2">A Week After</option>
-                                <option value="3">A Month After</option>
-                                <option value="4">A Year After</option>
+                            <select class="form-select shadow-none" id="surge-prediction-ranges">
+                                <option selected value="A Day After">A Day After</option>
+                                <option value="A Week After">A Week After</option>
+                                <option value="A Month After">A Month After</option>
+                                <option value="A Year After">A Year After</option>
                             </select>
-                            <label for="floatingSelectGrid">Prediction Ranges</label>
+                            <label for="surge-prediction-ranges">Prediction Ranges</label>
                         </div>
                     </div>
-                 </div>
+                </div>
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
+                        <div class="form-floating">
+                            <select class="form-select shadow-none" id="surge-preferred-currency">
+                                <option selected value="idr">Indonesian Rupiah (IDR)</option>
+                                <option value="usd">American Dollar (USD)</option>
+                            </select>
+                            <label for="surge-preferred-currency">Currency</label>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-12 col-sm-auto col-md-auto col-lg-auto">
+                    <button id="surge-submit-prediction" type="button" class="btn btn-danger shadow-none py-3 px-4"><i class="bi bi-send-plus me-2"></i> Predict</button>
+                </div>
              </div>
          </div>
+
+         <canvas id="surge-gold-data-chart" width="900" height="400"></canvas>
     </div>
 
     {% include 'Static/js-end.html' %}
