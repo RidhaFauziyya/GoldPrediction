@@ -8,8 +8,8 @@ def get_curr_work_dir():
     directories = dict()
 
     directories['templates_dir'], directories['static_dir'] = os.path.join(base_dir, 'Views'), os.path.join(base_dir, 'Public')
-    directories['controllers_dir'], directories['helpers_dir'] = os.path.join(base_dir, 'App\\Controllers'), os.path.join(base_dir, 'App\\Helpers')
-    directories['js_dir'], directories['css_dir'] = os.path.join(base_dir, 'Public\\Scripts\\css'), os.path.join(base_dir, 'Public\\Scripts\\js')
+    directories['controllers_dir'], directories['helpers_dir'] = os.path.join(base_dir, 'App/Controllers'), os.path.join(base_dir, 'App/Helpers')
+    directories['js_dir'], directories['css_dir'] = os.path.join(base_dir, 'Public/Scripts/css'), os.path.join(base_dir, 'Public/Scripts/js')
     
     return directories
 
@@ -24,12 +24,28 @@ def get_gold_data(start_date, end_date, ticker='GC=F'):
 
         '''
         gold_data = gold_data[['Date','Close']]
-        gold_data.astype({'Date': str}).to_json(os.path.join(base_dir, 'Public\\Dataset\\gold_historical_data.json'), orient='records', lines=False)
+        gold_data.astype({'Date': str}).to_json(os.path.join(base_dir, 'Public/Dataset/gold_historical_data.json'), orient='records', lines=False)
         '''
 
         return histories
     except Exception as e:
         print(e) 
+
+# def get_gold_data_local(window, currency):
+#     dataframe = pd.read_csv(os.path.join(base_dir, 'Public/Dataset/world_gold_council_gold_data_daily.csv'), delimiter=',')
+#     dataframe = dataframe[['DATE', currency.upper()]]
+
+#     dataframe = dataframe.sort_values(by='DATE', ascending=False)
+#     current_date = dataframe['DATE'].iloc[0]
+#     datetime_array = [current_date]
+
+#     while len(datetime_array) < window:
+#         selected_date = current_date - timedelta(days=window)
+#         selected_data_index = dataframe.index[dataframe['DATE'] == selected_date]
+#         current_date = dataframe['DATE'].loc[selected_data_index]
+
+#         datetime_array.append(selected_date)
+
 
 def convert_currencies(amount, curr_currency, prefered):
     url = f'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{curr_currency}.json'
@@ -56,7 +72,7 @@ def get_historical_gold_prices(window, date_start=None, date_end=None, ticker='G
         return [list(round(price, 2) for price in response['Close'][-window:])]
 
 def predict_gold_price(model_name, data, prefered_currency='idr'):
-    loaded_model = joblib.load(os.path.join(base_dir, f'App\\Models\\{model_name}'))
+    loaded_model = joblib.load(os.path.join(base_dir, f'App/Models/{model_name}'))
     if prefered_currency != 'usd':
         result = convert_currencies(loaded_model.predict(data)[0], 'usd', prefered_currency)
     else:

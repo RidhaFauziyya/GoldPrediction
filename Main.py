@@ -13,7 +13,7 @@ def index():
 @app.route("/api/chart/get_gold_data", methods=['GET'])
 def get_gold_data():
     try:
-        gold_data_path = os.path.join(working_dir['static_dir'], 'Dataset\\gold_historical_data.json') 
+        gold_data_path = os.path.join(working_dir['static_dir'], 'Dataset/gold_historical_data.json') 
         with open(gold_data_path) as test_file:
             data = json.load(test_file)
             dataframe = pd.DataFrame.from_dict(data)
@@ -106,15 +106,15 @@ def post_prediction_data():
         pred_result = helper.predict_gold_price(model_name, prev_gold_prices, prefered_currency=pref_currency)
 
         # save data
-        with open(os.path.join(working_dir['static_dir'], 'Dataset\\prediction_histories.json')) as file:
+        with open(os.path.join(working_dir['static_dir'], 'Dataset/prediction_histories.json')) as file:
             json_data = json.load(file)
             dataframe = pd.DataFrame.from_dict(json_data)
         
             dataframe.loc[len(dataframe)] = [curr_date, pref_currency, str(helper.get_gold_price_today()), data['model_ranges'], str(pred_result)]
-            dataframe.astype({'Date': str}).to_json(os.path.join(working_dir['static_dir'], 'Dataset\\prediction_histories.json'), orient='records', lines=False)
+            dataframe.astype({'Date': str}).to_json(os.path.join(working_dir['static_dir'], 'Dataset/prediction_histories.json'), orient='records', lines=False)
 
         # load and return updated json
-        with open(os.path.join(working_dir['static_dir'], 'Dataset\\prediction_histories.json')) as file:
+        with open(os.path.join(working_dir['static_dir'], 'Dataset/prediction_histories.json')) as file:
             updated_json = json.load(file)
 
         return jsonify(
@@ -136,7 +136,7 @@ def post_prediction_data():
 @app.route("/api/table/get_prediction_table_data", methods=['GET'])
 def get_prediction_table_data():
     # load and return updated json
-    with open(os.path.join(working_dir['static_dir'], 'Dataset\\prediction_histories.json')) as file:
+    with open(os.path.join(working_dir['static_dir'], 'Dataset/prediction_histories.json')) as file:
         updated_json = json.load(file)
 
     try:
@@ -157,4 +157,4 @@ def get_prediction_table_data():
         )
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

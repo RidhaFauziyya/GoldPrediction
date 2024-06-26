@@ -3,52 +3,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 <script>
+    var pred_table, gold_price_chart;
     var base_url_api = 'http://127.0.0.1:5000/api';
-    $(document).ready( function () {
-        // create chart
-        create_gold_histories_hart()
 
-        // create table
-        const predictionTable = $("div#prediction-histories").Grid({
-            columns: ['Name', 'Age', 'Email'],
-            pagination: {
-                limit: 5
-            },
-            data: [
-                ['John', 25, 'john@k.com'],
-                ['Mark', 59, 'mark@e.com'],
-            ]
-        });
+    $(document).ready( function () {
+        // create chart and table
+        create_gold_histories_chart();
+        create_prediction_histories_table();
 
         // on click listeners
-        $('#submit-prediction').click(function(){
-            updateTable(predictionTable)
+        $('#historical-submit-prediction').click(function(){
+            let data = {
+                "model_ranges": $('#historical-prediction-ranges').val(),
+                "pred_prefered_currency": $('#historical-preferred-currency').val(),
+                "model": $('#historical-preferred-model').val()
+            }
+            console.log(data)
+            update_table(pred_table, JSON.stringify(data))
         });
-
     });
-
-    function populateTable(params) {
-        var url = `${base_url_api}/update_gold_data`;
-        $.get(url).then(function (res) {
-            params.success(res)
-        })
-    }
-
-    function addData(chart, label, newData) {
-        chart.data.labels.push(label);
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(newData);
-        });
-        chart.update();
-    }
-
-    function removeData(chart) {
-        chart.data.labels.pop();
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.pop();
-        });
-        chart.update();
-    }
 
     function ajax_call(endpoint, method) {
         $.ajax({
@@ -60,7 +33,7 @@
         });
     }
 
-    function create_gold_histories_hart() {
+    function create_gold_histories_chart() {
         $.ajax({
             type: "GET",
             url: `${base_url_api}/chart/get_gold_data`,
@@ -70,8 +43,8 @@
                 let close_data = data['response']['close_data'];
 
                 // draw chart from data
-                let ctx = document.getElementById('historical-gold-data-chart');
-                new Chart(ctx, {
+                gold_price_chart = document.getElementById('historical-gold-data-chart');
+                new Chart(gold_price_chart, {
                     type: 'line',
                     data: {
                     labels: date_data,
@@ -107,21 +80,127 @@
         });
     }
 
-    function updateTable(table) {
-        Swal.fire({
-            icon: "success",
-            title: "Your work has been saved",
-            showConfirmButton: false,
-            timer: 1500
+    function normalize_json(json_data) {
+        let data = {};
+        for (let key in json_data) {
+            if (json_data.hasOwnProperty(key)) {
+                let new_key = key.replace(/\s+/g, '').toLowerCase();
+                data[new_key] = json_data[key];
+            }
+        }
+        return data;
+    }
+    
+    function create_prediction_histories_table() {
+        $.ajax({
+            type: "GET",
+            url: `${base_url_api}/table/get_prediction_table_data`,
+            success: function(data) {
+                // Convert indexed array from json to normal array object
+                let table_values = Object.values(data['response']);
+
+                // Change keys to match Grid Js standard
+                let table_data = table_values.map(normalize_json);
+
+                // draw table from data
+                pred_table = $("div#prediction-histories").Grid({
+                    pagination: {
+                        limit: 5
+                    },
+                    columns: ['DATE', 'CURRENCY', 'CURRENTPRICE', 'DATERANGE', 'RESULTS'],
+                    data: table_data
+                });
+            }
         });
-        table.updateConfig({
-            data: [
-                ["test", "test@example.com", "(353) 01 222 3333"],
-                ["Mark", "mark@gmail.com", "(01) 22 888 4444"],
-                ["Eoin", "eoin@gmail.com", "0097 22 654 00033"],
-                ["Sarah", "sarahcdd@gmail.com", "+322 876 1233"],
-                ["Afshin", "afshin@mail.com", "(353) 22 87 8356"]
-            ]
-        }).forceRender();
+    }
+
+    function update_table(table, raw_json) {
+        // show loading swal
+        Swal.fire({allowOutsideClick : false,title: "Making Prediction", didOpen: () => {swal.showLoading();}});
+
+        // get prediction and update table
+        $.ajax({
+            data: raw_json, 
+            type: 'POST',
+            processData: false,
+            url: `${base_url_api}/table/post_prediction_data`,
+            contentType: 'application/json',
+            success: function(data) {
+                // Convert indexed array from json to normal array object
+                let table_values = Object.values(data['response']);
+
+                // Change keys to match Grid Js standard
+                let table_data = table_values.map(normalize_json);
+
+                // force update data on the table
+                table.updateConfig({data: table_data}).forceRender();
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Successfully Predict Gold Price!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then((result) => {
+                    swal.close()
+                });
+            },
+            error: function(data) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Cannot Make Prediction, Something is Wrong!",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then((result) => {
+                    swal.close()
+                });
+            }
+        });
+    }
+
+    function create_surge_chart() {
+                $.ajax({
+            type: "GET",
+            url: `${base_url_api}/chart/get_gold_data`,
+            success: function(data) {
+                // get date and close price data
+                let date_data = data['response']['date_data'];
+                let close_data = data['response']['close_data'];
+
+                // draw chart from data
+                gold_price_chart = document.getElementById('historical-gold-data-chart');
+                new Chart(gold_price_chart, {
+                    type: 'line',
+                    data: {
+                    labels: date_data,
+                    datasets: [{
+                            label: 'Gold Price in USD',
+                            data: close_data,
+                            borderColor: 'rgba(66, 54, 23)',
+                            backgroundColor: 'rgba(222, 192, 115)',
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                title: {
+                                display: true,
+                                text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                display: true,
+                                text: 'Price'
+                                },
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                });
+            }
+        });
     }
 </script>

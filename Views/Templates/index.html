@@ -23,13 +23,13 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
                         <div class="form-floating">
-                            <select class="form-select shadow-none" id="floatingSelectGrid">
-                                <option selected value="1">A Day After</option>
-                                <option value="2">A Week After</option>
-                                <option value="3">A Month After</option>
-                                <option value="4">A Year After</option>
+                            <select class="form-select shadow-none" id="historical-prediction-ranges">
+                                <option selected value="A Day After">A Day After</option>
+                                <option value="A Week After">A Week After</option>
+                                <option value="A Month After">A Month After</option>
+                                <option value="A Year After">A Year After</option>
                             </select>
-                            <label for="floatingSelectGrid">Prediction Ranges</label>
+                            <label for="historical-prediction-ranges">Prediction Ranges</label>
                         </div>
                     </div>
                 </div>
@@ -37,11 +37,11 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
                         <div class="form-floating">
-                            <select class="form-select shadow-none" id="floatingSelectGrid">
-                                <option selected value="1">Indonesian Rupiah (IDR)</option>
-                                <option value="2">American Dollar (USD)</option>
+                            <select class="form-select shadow-none" id="historical-preferred-currency">
+                                <option selected value="idr">Indonesian Rupiah (IDR)</option>
+                                <option value="usd">American Dollar (USD)</option>
                             </select>
-                            <label for="floatingSelectGrid">Currency</label>
+                            <label for="historical-preferred-currency">Currency</label>
                         </div>
                     </div>
                 </div>
@@ -49,15 +49,15 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="bi bi-motherboard"></i></span>
                         <div class="form-floating">
-                            <select class="form-select shadow-none" id="floatingSelectGrid">
-                                <option selected value="1">MLP</option>
+                            <select class="form-select shadow-none" id="historical-preferred-model">
+                                <option selected value="mlp">MLP</option>
                             </select>
-                            <label for="floatingSelectGrid">Model</label>
+                            <label for="historical-preferred-model">Model</label>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-sm-auto col-md-auto col-lg-auto">
-                    <button id="submit-prediction" type="button" class="btn btn-danger shadow-none py-3 px-4"><i class="bi bi-send-plus me-2"></i> Predict</button>
+                    <button id="historical-submit-prediction" type="button" class="btn btn-danger shadow-none py-3 px-4"><i class="bi bi-send-plus me-2"></i> Predict</button>
                 </div>
             </div>
         </form>
@@ -97,22 +97,18 @@
             <h2 class="header-text"><i class="bi bi-file-earmark-bar-graph me-2"></i> Potential Surge in Price</h2>
             <div class="row g-3">
                  <div class="col-12 col-sm-12 col-md-12 col-lg-3">
-                     <div class="input-group mb-3">
-                         <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
-                         <div class="form-floating">
-                             <input type="date" class="form-control shadow-none" id="start-date-historical">
-                             <label for="start-date-historical">Start Date</label>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-3">
-                     <div class="input-group mb-3">
-                         <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
-                         <div class="form-floating">
-                             <input type="date" class="form-control shadow-none" id="end-date-historical">
-                             <label for="end-date-historical">End Date</label>
-                         </div>
-                     </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-calendar2-range"></i></span>
+                        <div class="form-floating">
+                            <select class="form-select shadow-none" id="floatingSelectGrid">
+                                <option selected value="1">A Day After</option>
+                                <option value="2">A Week After</option>
+                                <option value="3">A Month After</option>
+                                <option value="4">A Year After</option>
+                            </select>
+                            <label for="floatingSelectGrid">Prediction Ranges</label>
+                        </div>
+                    </div>
                  </div>
              </div>
          </div>
