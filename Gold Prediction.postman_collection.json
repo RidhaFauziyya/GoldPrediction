@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "e645d8d5-540b-4b15-b229-3845be434149",
+		"name": "Gold Prediction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26431154"
+	},
+	"item": [
+		{
+			"name": "Table",
+			"item": [
+				{
+					"name": "Post Prediction Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model_ranges\": \"A Day After\",\r\n    \"pred_prefered_currency\": \"idr\",\r\n    \"model\": \"mlp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/table/post_prediction_data",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"table",
+								"post_prediction_data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Prediction Histories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"mlp\",\r\n    \"model_ranges\": \"A Day After\",\r\n    \"pred_prefered_currency\": \"usd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/table/get_prediction_table_data",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"table",
+								"get_prediction_table_data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Charts",
+			"item": [
+				{
+					"name": "Get Date Range Gold Price",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"start_date\": \"2024-06-01\",\r\n    \"end_date\": \"2024-06-24\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/chart/get_ranges_gold_data",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"chart",
+								"get_ranges_gold_data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Potential Surge in Price",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"window\": \"A Week After\",\r\n    \"currency\": \"idr\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/chart/get_ranges_gold_surge_data",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"chart",
+								"get_ranges_gold_surge_data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chart Gold Price",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/chart/get_gold_data",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"chart",
+								"get_gold_data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Prediction",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"model\": \"mlp\",\r\n    \"model_ranges\": \"A Day After\",\r\n    \"pred_prefered_currency\": \"idr\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url_api}}/get_prediction",
+					"host": [
+						"{{base_url_api}}"
+					],
+					"path": [
+						"get_prediction"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:5000",
+			"type": "string"
+		},
+		{
+			"key": "base_url_api",
+			"value": "http://127.0.0.1:5000",
+			"type": "string"
+		}
+	]
+}
